@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel ,EmailStr
 
 
 class ItemBase(BaseModel):
@@ -39,6 +39,8 @@ class Store(StoreBase):
 #user
 class UserBase(BaseModel):
     name: str
+    email: str
+    password: str
 
 
 class UserCreate(UserBase):
@@ -52,5 +54,11 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+class UserRegister(BaseModel):
+    name: str
 
+
+class UserShow(BaseModel):
+    name: str
+    email: str
 

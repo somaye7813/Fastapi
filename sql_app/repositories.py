@@ -66,7 +66,7 @@ class StoreRepo:
 class UserRepo:
     
     async def create(db: Session, user: schemas.UserCreate):
-            db_user = models.User(name=user.name)
+            db_user = models.User(name=user.name, email = user.email , password = user.password)
             db.add(db_user)
             db.commit()
             db.refresh(db_user)

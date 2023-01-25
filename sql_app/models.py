@@ -26,4 +26,6 @@ class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True,index=True)
     name = Column(String(80), nullable=False, unique=True)
+    email = Column(String , nullable=True, index=True)
+    password = Column(String, nullable=True)
     items = relationship("Item",primaryjoin="User.id == Item.user_id",cascade="all, delete-orphan")

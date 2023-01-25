@@ -214,6 +214,28 @@ async def delete_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="user not found with the given ID")
     await UserRepo.delete(db, user_id)
     return "User deleted successfully!"
+        
+
+#login & register
+@app.post('/register',  tags=["register"], response_model=schemas.User, status_code=201)
+async def register_user(user_request: schemas.UserRegister, db: Session = Depends(get_db)):
+    db_user = UserRepo.fetch_by_name(db, name =user_request.name)
+    if db_user is None:
+        raise HTTPException(status_code=400,detail='Account not exist')
+        return await UserRepo.create(db=db, user=user_request)
+    else :
+        raise HTTPException(status_code=201,detail='Account already exist')
+    
+
+@app.get('/login/{user_id}', tags=["login"],response_model=schemas.User)
+def login(user_id: int, db: Session = Depends(get_db)):
+    db_user = UserRepo.fetch_by_id(db, user_id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="user not found with the given ID")
+    return db_user
+
+
+
 
 
 
